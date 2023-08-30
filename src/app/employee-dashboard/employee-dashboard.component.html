@@ -1,0 +1,116 @@
+<div class="outer">
+    <nav class="navbar navbar-light bg-dark">
+        <div class="container-fluid">
+            <h1 style="color: aliceblue;" class="navbar-brand">Angular Crud</h1>
+            <div class="d-flex">
+    
+                <button type="button" id="add-btn" class="btn btn-success" (click)="clickAddEmployee()" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Employee</button>
+                
+                <button routerLink="/login" class="btn btn-danger mx-3">Logout</button>
+            </div>
+        </div>
+    </nav>
+    
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">email</th>
+                <th scope="col">Dob</th>
+                <th scope="col">admission</th>
+                <th scope="col">Practicing Area</th>
+                <th scope="col">Practice Location</th>
+                <th scope="col">position</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of employeeData">
+    
+                
+                <td>{{row.firstName}}</td>
+                <td>{{row.lastName}}</td>
+                <td>{{row.email}}</td>
+                <td>{{row.dob}}</td>
+                <td>{{row.admission}}</td>
+                <td>{{row.practicingArea}}</td>
+                <td>{{row.practiceLocation}}</td>
+                <td>{{row.position}}</td>
+                <td>
+                    <button style="color: #fff;" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-info" (click)="onEdit(row)">Edit</button>
+                    
+                </td>
+            </tr>
+    
+        </tbody>
+    </table>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Employee Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="formValue">
+                        <div class="mb-3">
+                            <label for="exampleInputemail1" class="form-label">First Name</label>
+                            <input type="text" formControlName="firstName" class="form-control" id="exampleInputemail1" aria-describedby="emailHelp">
+                            <span class="col-md-12 text-danger" *ngIf="formValue.controls['firstName'].touched && formValue.hasError('required','firstName')">First name is required</span>
+                                  <span class="col-md-12 text-danger" *ngIf="formValue.controls['firstName'].touched && formValue.hasError('minlength','firstName')">First name must contain atleast 5 characters</span>
+                                  <span class="col-md-12 text-danger" *ngIf="formValue.controls['firstName'].touched && formValue.hasError('maxlength','firstName')">First name cannot contain more than 35 characters</span>
+                                
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Last Name</label>
+                            <input type="text" formControlName="lastName" class="form-control" id="exampleInputPassword1">
+                            <span id="lastNameError" class="col-md-12 text-danger" *ngIf="formValue.controls['lastName'].touched && formValue.hasError('required','lastName')">Last name is required</span>
+                                  <span id="lastNameError" class="col-md-12 text-danger" *ngIf="formValue.controls['lastName'].touched && formValue.hasError('minlength','lastName')">Last name must contain atleast 5 characters</span>
+                                  <span id="lastNameError" class="col-md-12 text-danger" *ngIf="formValue.controls['lastName'].touched && formValue.hasError('maxlength','lastName')">Last name cannot contain more than 35 characters</span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputemail1" class="form-label">Email address</label>
+                            <input type="email" formControlName="email" class="form-control" id="exampleInputemail1" aria-describedby="emailHelp">
+                            <span id="emailError" class="col-md-12 text-danger" *ngIf="formValue.controls['email'].touched && formValue.hasError('required','email')">email is required</span>
+                            <span id="emailError" class="col-md-12 text-danger" *ngIf="formValue.controls['email'].touched && formValue.hasError('email','email')">Enter valid email address</span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputDob1" class="form-label">Dob</label>
+                            <input type="date" formControlName="dob" class="form-control" id="exampleInputDob1">
+                            <span id="DobError" class="col-md-12 text-danger" *ngIf="formValue.controls['dob'].touched && formValue.hasError('required','dob')">Date of Birth is required</span>
+                            <span id="DobError" class="col-md-12 text-danger" *ngIf="formValue.controls['dob'].touched && formValue.hasError('maxAgeBorn','dob')">Year Born should be 25yrs less than the current year and 21yrs less than year of Admission</span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputadmission1" class="form-label">Admission</label>
+                            <input type="date" formControlName="admission" class="form-control" id="exampleInputadmission1">
+                            <span id="admissionError" class="col-md-12 text-danger" *ngIf="formValue.controls['admission'].touched && formValue.hasError('required','admission')">Date of admission is required</span>
+                            <span id="admissionError" class="col-md-12 text-danger" *ngIf="formValue.controls['admission'].touched && formValue.hasError('maxAgeForAdmission','admission')">Date of admission should be less than current Year and should be after 1950</span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputpracticingArea1" class="form-label">Practicing Area</label>
+                            <input type="text" formControlName="practicingArea" class="form-control" id="exampleInputpracticingArea1">
+                            <span id="AreaError" class="col-md-12 text-danger" *ngIf="formValue.controls['practicingArea'].touched && formValue.hasError('required','practicingArea')">Practicing area is required</span>
+                            <span id="AreaError" class="col-md-12 text-danger" *ngIf="formValue.controls['practicingArea'].touched && formValue.hasError('maxlength','practicingArea')">Practicing area cannot contain nore than 100 characters</span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputpracticeLocation1" class="form-label">Practice Location</label>
+                            <input type="text" formControlName="practiceLocation" class="form-control" id="exampleInputpracticeLocation1">
+                            <span id="LocationError" class="col-md-12 text-danger" *ngIf="formValue.controls['practiceLocation'].touched && formValue.hasError('required','practiceLocation')">Practice Location is required</span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputposition1" class="form-label">Position</label>
+                            <input type="text" formControlName="position" class="form-control" id="exampleInputposition1">
+                            <span id="positionError" class="col-md-12 text-danger" *ngIf="formValue.controls['position'].touched && formValue.hasError('required','position')">position is required</span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" *ngIf="showAdd" (click)="postEmployeeDetails()" class="btn btn-primary">Add</button>
+                    <button type="button" *ngIf="showUpdate" (click)="editEmployeeDetail()" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
